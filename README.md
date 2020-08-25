@@ -1,4 +1,4 @@
-# Dockerising Node.js App and MongoDb
+# Dockerising Node.js App and MongoDb :whale:
 
 ## Commands used
 ```
