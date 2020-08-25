@@ -1,0 +1,101 @@
+# Dockerising Node.js App and MongoDb
+
+## Commands used
+```
+docker-compose build - When changing a service's Dockerfile or contents, run to rebuild
+docker-compose up    - Aggregates output of each container
+docker ps            - ps stands for process status, shows running containers
+```
+
+## Create Dockerfile 
+````bash
+# Selecting the base image to build our own customised node.js application microservice
+FROM node:alpine
+
+# Working directory inside the container
+WORKDIR /usr/src/app
+
+# Copying dependencies
+COPY package*.json ./
+
+# Installing node package manager
+RUN npm install
+
+# Copying everything from current location to default location inside the container
+COPY . .
+
+# Expose the port
+EXPOSE 3000
+
+# Starting the app with CMD - 
+CMD ["node", "app.js"]
+````
+
+## Create `docker-compose.yml` in same folder as `Dockerfile`
+```yaml
+version: '3'
+services: 
+  mongo: 
+    container_name: mongo
+    image: mongo
+    restart: always
+    ports: 
+      - "27017:27017"
+    #volumes: 
+      #- "./data:/data/db"
+  
+  nodejs: 
+    build: .
+    container_name: dockerised-nodejs
+    environment:
+      - DB_HOST=mongodb://mongo:27017/posts
+    links: 
+      - mongo
+    ports: 
+      - "3000:3000"
+    #command: node seeds/seed.js
+```
+**mongo**\
+- `image` - instead of building our own image, we pull down the standard `mongo` image from the Docker Hub registry
+- `volume` - for persistent storage we mount the host directory `/data` to the container directory `data/db`
+    - Mounting volumes gives us persistent storage so when starting a new container, Docker Compose will use the volume of any previous container and copy it to the new container, ensuring that no data is lost.
+- `link` - linking the `nodejs` to the `mongo` container so that the `mongo` service is reachable from the `nodejs` service
+
+**nodejs**\
+- `version` - specifies version of docker compose we are using
+- `services` - defining services `mongo` and `nodejs`
+- `container_name`- giving container a memorable name to avoid randomly generated container names
+- `restart` - restarting container automatically if it fails
+- `build` - using the `Dockerfile` to build image in the `.` current directory
+- `ports` - mapping host port to the container port
+- `environment` - setting environment variables 
+
+Once you run `docker-compose up`, run `docker ps` to check that the contrainers are running
+```bash
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                      NAMES
+a1cf5c2ef7a0        app_nodejs          "docker-entrypoint.s…"   28 minutes ago      Up 27 minutes       0.0.0.0:3000->3000/tcp     dockerised-nodejs
+3e9dbb0f797c        mongo               "docker-entrypoint.s…"   48 minutes ago      Up 28 minutes       0.0.0.0:27017->27017/tcp   mongo
+```
+
+Run docker images
+```bash
+docker images
+REPOSITORY                  TAG                 IMAGE ID            CREATED             SIZE
+app_nodejs                  latest              72f3f76e2cae        31 minutes ago      471MB
+```
+
+To rename an image:
+```bash
+docker rmi -f app_nodejs
+docker tag 72f3f76e2cae naistangz/app_nodejs 
+```
+
+Create a repository on [Docker Hub](https://hub.docker.com/repository/docker/) and push docker image to the Docker registry 
+```bash
+docker push naistangz/app_nodejs
+```
+
+To access my image:
+```bash
+docker pull naistangz/app_nodejs:tagname
+```
