@@ -55,13 +55,13 @@ services:
       - "3000:3000"
     #command: node seeds/seed.js
 ```
-**mongo**\
+**mongo**
 - `image` - instead of building our own image, we pull down the standard `mongo` image from the Docker Hub registry
 - `volume` - for persistent storage we mount the host directory `/data` to the container directory `data/db`
     - Mounting volumes gives us persistent storage so when starting a new container, Docker Compose will use the volume of any previous container and copy it to the new container, ensuring that no data is lost.
 - `link` - linking the `nodejs` to the `mongo` container so that the `mongo` service is reachable from the `nodejs` service
 
-**nodejs**\
+**nodejs**
 - `version` - specifies version of docker compose we are using
 - `services` - defining services `mongo` and `nodejs`
 - `container_name`- giving container a memorable name to avoid randomly generated container names
