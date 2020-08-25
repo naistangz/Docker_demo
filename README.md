@@ -97,8 +97,9 @@ http://localhost:3000/posts
 **To rename an image:**
 ```bash
 docker rmi -f app_nodejs
-docker tag 72f3f76e2cae naistangz/app_nodejs 
+docker tag 72f3f76e2cae naistangz/app_nodejs <image id> <username/repository_name>
 ```
+
 
 **Create a repository on [Docker Hub](https://hub.docker.com/repository/docker/) and push docker image to the Docker registry** 
 ```bash
