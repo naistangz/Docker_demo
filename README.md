@@ -70,32 +70,34 @@ services:
 - `ports` - mapping host port to the container port
 - `environment` - setting environment variables 
 
-Once you run `docker-compose up`, run `docker ps` to check that the contrainers are running
+---
+
+**Once you run** `docker-compose up`, **run** `docker ps` **to check that the containers are running**
 ```bash
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                      NAMES
 a1cf5c2ef7a0        app_nodejs          "docker-entrypoint.s…"   28 minutes ago      Up 27 minutes       0.0.0.0:3000->3000/tcp     dockerised-nodejs
 3e9dbb0f797c        mongo               "docker-entrypoint.s…"   48 minutes ago      Up 28 minutes       0.0.0.0:27017->27017/tcp   mongo
 ```
 
-Run docker images
+**Run docker images**
 ```bash
 docker images
 REPOSITORY                  TAG                 IMAGE ID            CREATED             SIZE
 app_nodejs                  latest              72f3f76e2cae        31 minutes ago      471MB
 ```
 
-To rename an image:
+**To rename an image:**
 ```bash
 docker rmi -f app_nodejs
 docker tag 72f3f76e2cae naistangz/app_nodejs 
 ```
 
-Create a repository on [Docker Hub](https://hub.docker.com/repository/docker/) and push docker image to the Docker registry 
+**Create a repository on [Docker Hub](https://hub.docker.com/repository/docker/) and push docker image to the Docker registry** 
 ```bash
 docker push naistangz/app_nodejs
 ```
 
-To access my image:
+**To access my image:**
 ```bash
 docker pull naistangz/app_nodejs:tagname
 ```
