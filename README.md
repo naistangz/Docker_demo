@@ -86,6 +86,14 @@ REPOSITORY                  TAG                 IMAGE ID            CREATED     
 app_nodejs                  latest              72f3f76e2cae        31 minutes ago      471MB
 ```
 
+**Testing web application on browser**
+```bash
+http://localhost:3000
+http://localhost:3000/fibonacci/10
+http://localhost:3000/posts
+
+```
+
 **To rename an image:**
 ```bash
 docker rmi -f app_nodejs
