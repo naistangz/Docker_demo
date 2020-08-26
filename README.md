@@ -121,9 +121,21 @@ docker pull naistangz/app_nodejs:tagname
 ---
 
 ### Docker Volumes
+- Used to share data between containers and between container and hosts
+- Volumes are like shared folders, they're virtual discs that you can store data in and share them between containers and between containers and the host, or both
+- There are two main varieties of volumes:
+    - Persistent - you can put there and it will be available on the host, and when container goes away, the data will still be there
+    - Ephemeral - these exist as long as the container is using them, but they are not permanent.
+- They are not part of images, they're for your local data, local to this host.
+- They are like synced folders when working with virtual machines e.g Virtual Box
+
 - **Volume types**:
 ```bash
 docker run -v /home/mount/data:/var/lib/mysql/data
 docker run -v /var/lib/mysql/data - not specifying where in the host the directory is mounted. Also called anonymous volumes
 docker run -v name:/var/lib/mysql/data - named volumes 
 ```
+
+### Persisting data
+- Volumes save (persist) data, and enabling sharing data between containers
+- Volumes are directories (files) that are outside of the default Union File System and exist as normal directories and files on the host filesystem.
