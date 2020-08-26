@@ -11,10 +11,8 @@ COPY package*.json ./
 # Setting env variables
 #ARG DB_HOST="mongodb://localhost:27017/posts"
 #ENV DB_HOST=${DB_HOST}
-
 # Exporting DB
 #RUN export DB_HOST="mongodb://localhost:27017/posts"
-
 
 # Installing node package manager
 RUN npm install

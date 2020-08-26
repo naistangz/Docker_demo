@@ -101,6 +101,8 @@ http://localhost:3000/posts
 
 ```
 
+![Dockerised application successful](dockerised.png)
+
 **To rename an image:**
 ```bash
 docker rmi -f app_nodejs
@@ -131,7 +133,7 @@ docker pull naistangz/app_nodejs:tagname
 
 - **Volume types**:
 ```bash
-docker run -v /home/mount/data:/var/lib/mysql/data
+docker run -v /home/mount/data:/var/lib/mysql/data - specifying path where in the host the directory is mounted
 docker run -v /var/lib/mysql/data - not specifying where in the host the directory is mounted. Also called anonymous volumes
 docker run -v name:/var/lib/mysql/data - named volumes 
 ```

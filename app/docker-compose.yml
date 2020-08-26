@@ -8,6 +8,7 @@ services:
       - "27017:27017"
     volumes:
       - "./data:/data/db"
+      - ./mongod.conf:/etc/mongod.conf
   
   nodejs: 
     build: .
