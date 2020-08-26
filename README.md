@@ -55,10 +55,17 @@ services:
       - "3000:3000"
     #command: node seeds/seed.js
 ```
+---
+**Troubleshooting:**
+- In `docker-compose.yml` database seeded, however, app exited. 
+
 **mongo**
 - `image` - instead of building our own image, we pull down the standard `mongo` image from the Docker Hub registry
 - `volume` - for persistent storage we mount the host directory `/data` to the container directory `data/db`
     - Mounting volumes gives us persistent storage so when starting a new container, Docker Compose will use the volume of any previous container and copy it to the new container, ensuring that no data is lost.
+    - On host we have a physical file system, we plug a the physical file system into the container's virtual file system. The folder in physical hos file system is mounted into the virtual file system of Docker.
+- Container runs on the host/client machine, database runs in another container, the container has a virtual file system where the data is stored, meaning data is not persistent. When restarting or removing the container in the host machine, data is gone and starts from a fresh state.
+- **Persistent data** means data that doesn't change across time, systems, and memory, we are rendering it static.
 - `link` - linking the `nodejs` to the `mongo` container so that the `mongo` service is reachable from the `nodejs` service
 
 **nodejs**
@@ -109,4 +116,14 @@ docker push naistangz/app_nodejs
 **To access my image:**
 ```bash
 docker pull naistangz/app_nodejs:tagname
+```
+
+---
+
+### Docker Volumes
+- **Volume types**:
+```bash
+docker run -v /home/mount/data:/var/lib/mysql/data
+docker run -v /var/lib/mysql/data - not specifying where in the host the directory is mounted. Also called anonymous volumes
+docker run -v name:/var/lib/mysql/data - named volumes 
 ```
